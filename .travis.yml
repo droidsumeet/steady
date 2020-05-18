@@ -25,18 +25,6 @@ matrix:
     - chmod +x .travis/package_steady_cli.sh
     - bash .travis/package_steady_cli.sh ${VULAS_RELEASE}
     deploy:
-    - provider: script
-      skip_cleanup: true
-      script: bash .travis/docker_hub_push_snapshot.sh
-      on:
-        branch: master
-        condition: "$TRAVIS_EVENT_TYPE = push"
-    - provider: script
-      skip_cleanup: true
-      script: bash .travis/docker_hub_push_release.sh
-      on:
-        tags: true
-        condition: "$TRAVIS_TAG =~ ^[0-9]+\\.[0-9]+\\.[0-9]+(\\..+)?$"
     - provider: releases
       api_key: "$GIT_TOKEN"
       file: "/tmp/cli/vulas-cli-${VULAS_RELEASE}.zip"
@@ -44,6 +32,7 @@ matrix:
       on:
         tags: true
         condition: "$TRAVIS_TAG =~ ^[0-9]+\\.[0-9]+\\.[0-9]+(\\..+)?$"
+
   - name: OpenJDK8 - Create Maven artifacts for JavaDoc and sources
     language: java
     jdk: openjdk8
